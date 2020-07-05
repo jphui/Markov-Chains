@@ -38,9 +38,10 @@ WordGraph.java
 
 - String-based weighted graph taking an input string or text file.
 
-MWordGraph.java
+***MWordGraph.java***
 
-- Markov-specific functionality abstracted in order to maintain integrity of WordGraph.java for grading purposes
+- Markov-specific functionality abstracted in order to maintain integrity of WordGraph.java for grading purposes.
+- Employs a queue to allow for easy scalability for Markov Chain orders. 4th and further orders can easily be built based on the patterns established in this class; no new data members are needed!
 
 MarkovChain.java
 

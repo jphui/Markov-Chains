@@ -8,7 +8,7 @@ public class MarkovChainTester
 		MarkovChain chain = new MarkovChain("<START>", "<END>");
 		
 		//train the MarkovChain with some data
-		chain.train("training_material/aristotle.txt");
+		chain.train("training_material/garfield.txt");
 		
 		//Generate some random sentences
 		int num = 10;
