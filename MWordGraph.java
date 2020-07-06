@@ -5,20 +5,20 @@ import java.util.Scanner;
 
 class MWordGraph extends WordGraph
 {
-    private String startWord;
-    private String endWord;
+    private String START;
+    private String END;
 
     /**
      * Holds the most recently-added words for 2nd+ MC Orders
      */
     private Queue<String> lastWords;
 
-    public MWordGraph(String startWord, String endWord)
+    public MWordGraph(String START, String END)
     {
-        this.startWord = startWord;
-        this.endWord = endWord;
-        graph.add(startWord);
-        graph.add(endWord);
+        this.START = START;
+        this.END = END;
+        graph.add(START);
+        graph.add(END);
 
         lastWords = new LinkedList<>();
     }
@@ -31,7 +31,7 @@ class MWordGraph extends WordGraph
      *  Single quote (‘)
      *  Double quote (“)
      */
-    private boolean isEndWord(String word)
+    public boolean isEndWord(String word)
     {
         return word.matches(".*[.?!'\"]$");
     }
@@ -40,13 +40,13 @@ class MWordGraph extends WordGraph
     public void addWord(String newWord)
     {
         if (lastWord == null)
-            lastWord = startWord;
+            lastWord = START;
 
         super.addWord(newWord);
 
         if (isEndWord(newWord.trim()))
         {
-            super.addWord(endWord);
+            super.addWord(END);
             lastWord = null;
         }
     }
@@ -67,31 +67,42 @@ class MWordGraph extends WordGraph
 
         // We will ensure this is always a sign of starting a new sentence
         if (lastWords.isEmpty())
-            lastWords.add(startWord);
+            lastWords.add(START);
 
         // If the queue size isn't of size 'order', then we need to "prep" more by enqueuing more words!
         if (lastWords.size() < order)
-            lastWords.add(newWord);
+        {
+            if (!newWord.equals(""))
+            {
+                lastWords.add(newWord);
+            }
+        }
         else
         {
             /*
              * A big realization is that lastWord can be formatted however we want because the only thing that
              * "matters" is what is CHOSEN, which is what word it has an edge to (that's what's printed).
              */
-            lastWord = lastWords.toString();
+            // As per addWord() implementation, we don't want edges TO blobs, so we set lastWord to null
+            lastWord = null;
+            // After this next operation, lastWord will FAVORABLY be set to lastWords.toString()
+            super.addWord(lastWords.toString());
 
             // Many->newWord mapping ==> note that after this call, lastWord is set to newWord as per the super's def
             super.addWord(newWord);
 
             // Remove the oldest word and move-in newWord
-            lastWords.remove();
-            lastWords.add(newWord);
+            if (!newWord.equals(""))
+            {
+                lastWords.remove();
+                lastWords.add(newWord);
+            }
 
             // EndWord procedure
             if (isEndWord(newWord))
             {
                 lastWord = lastWords.toString();
-                super.addWord(endWord);
+                super.addWord(END);
 
                 // RESET!!!
                 lastWords.clear();  // We're done with this sentence: clear the queue!

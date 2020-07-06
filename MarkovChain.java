@@ -15,17 +15,15 @@ public class MarkovChain
 	 */
 	private String lastWord;
 
-	private String startWord;
-	private String endWord;
+	protected String START;
 
 	//CONSTRUCTOR
-    public MarkovChain(String startWord, String endWord)
+    public MarkovChain(String START, String END)
     {
     	//initialize instance variables
-    	wg = new MWordGraph(startWord, endWord);
+    	wg = new MWordGraph(START, END);
 
-    	this.startWord = startWord;
-    	this.endWord = endWord;
+    	this.START = START;
 
     	lastWord = null;
     }
@@ -36,6 +34,8 @@ public class MarkovChain
     }
     
     //METHODS
+    public String getLastWord() { return lastWord; }
+
     /**
      *	Add word relationships from the specified file
      */
@@ -53,9 +53,9 @@ public class MarkovChain
     public List<String> getNextWords()
     {
     	//TODO: return List<String> of words that are neighbors of lastWord, weighted appropriatly
-    	String findMe = lastWord == null ? startWord : lastWord;
+    	String findMe = lastWord == null ? START : lastWord;
 
-    	List<String> ret = new LinkedList<String>();
+    	List<String> ret = new LinkedList<>();
     	Map<String, Integer> data = wg.getGraph().getNeighborWeights(findMe);
     	for (String word : data.keySet()) {
             for (int i = 0; i < data.get(word); i++) {
@@ -64,6 +64,11 @@ public class MarkovChain
         }
     	return ret;
     }
+
+    /**
+     * Only relevant to children to update Last's
+     */
+    public void updateMemory() {  }
     
     /**
      *	Get a word that follows lastWord
@@ -74,8 +79,20 @@ public class MarkovChain
     public String getNextWord()
     {
     	//TODO: return random word with an edge from lastWord
+
+        /**
+         * Comment AX-50:
+         * I need to know which version of "getNextWords()" will run here... if it's always the "bottomMost", then
+         * we can reuse this method for all levels!
+         * RESOLVED: IT DOES CORRECTLY CALL THE DEEPEST LEVEL!!!
+         */
         List<String> pickMe = this.getNextWords();
-        return pickMe.get((int) (Math.random()*pickMe.size()));
+
+        // Design decision: have children update memory update lastWord when it's chosen
+        this.updateMemory();
+        lastWord = pickMe.get((int) (Math.random()*pickMe.size()));
+
+        return lastWord;
     }
     
     /**
@@ -84,16 +101,20 @@ public class MarkovChain
     public String generateSentence()
     {
     	//TODO: generate a sentence from [START] to [END]
+
+        // Fresh start
+        lastWord = null;
+
         String ret = "";
 
-        lastWord = null;    // IMPORTANT to "freshstart"
-
-        String next = getNextWord();
-        while (!next.equals(endWord)) {
-            ret += next + " ";
-            lastWord = next;
-            next = getNextWord();
+        do
+        {
+            /**
+             * RESOLVED: See Comment AX-50
+             */
+            ret += this.getNextWord() + " ";
         }
+        while (!wg.isEndWord(lastWord));
 
         return ret;
     }
