@@ -105,18 +105,19 @@ public class MarkovChain
         // Fresh start
         lastWord = null;
 
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
 
         do
         {
             /**
              * RESOLVED: See Comment AX-50
              */
-            ret += this.getNextWord() + " ";
+            ret.append(this.getNextWord());
+            ret.append(" ");
         }
         while (!wg.isEndWord(lastWord));
 
-        return ret;
+        return ret.toString().trim();
     }
     
     
