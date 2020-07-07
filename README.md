@@ -22,7 +22,7 @@ Understand how to populate a graph using real-world data and subsequently observ
 
 All *...Tester.java* files contain modularized self-written and provided test cases to test each step of the development process.
 
-*MarkovChainTester.java* and *FinalOutput.java* contain code to produce output which can then be qualitatively judged on the basis of randomness, syntactic correctness, and cohesiveness.
+*MarkovChainTester.java* contains code to produce output which can then be qualitatively judged on the basis of randomness, syntactic correctness, and cohesiveness.
 
 **=== Description of Relevant Files ===**
 

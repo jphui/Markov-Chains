@@ -1,7 +1,6 @@
-import java.util.LinkedList;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
 
 public class MarkovChainGen2 extends MarkovChain
 {
@@ -12,7 +11,7 @@ public class MarkovChainGen2 extends MarkovChain
 	private MWordGraph wgPairs;
 
     /**
-     * Holds the most recently-generated words
+     * This holds the word generated 2 steps ago
      */
     private String lastlastWord;
 
@@ -32,6 +31,8 @@ public class MarkovChainGen2 extends MarkovChain
     }
     
     //METHODS
+    //TODO: override methods needed to generate 2nd Degree Markov Chains
+
     public String getLastlastWord() { return lastlastWord; }
 
     @Override
@@ -42,17 +43,16 @@ public class MarkovChainGen2 extends MarkovChain
     	//TODO: do some magic to store 2nd order markov chain data
     	wgPairs.processFileGen(filename, 2);
     }
-    
-    
-    //TODO: override any other other methods needed to generate 2nd Degree Markov Chains
 
     @Override
     /**
-     * Edge cases: "starting out" and "not seeing the current pair->single mapping
      * APPROACH: getNextWord() will operate the same at all levels!
      *      - It will be given a list from getNextWords and choose 1 randomly...
      *      - THUS, getNextWords() will change at the different orders!
-     *      super.updatelastwords()
+     * Edge cases for orders 2+
+     *      - "starting out"
+     *      - "not seeing the current pair->single mapping
+     *          --> Deprecated: "escape route" is shown in TODO but should never run in theory.
      */
     public List<String> getNextWords()
     {
@@ -61,12 +61,11 @@ public class MarkovChainGen2 extends MarkovChain
 
         // This is the "starting" case, in which the choices must be first-order!
         if (lastlastWord == null)
-        {
-            lastlastWord = START;
             return firstOrder;
-        }
 
-        // At this point, we know that both lastlast and last are filled
+        // At this point, we know that both lastlast and last are filled. This is because eventually, updateMemory()
+        //      will run and assign lastlast.
+        // TODO: This can easily be made more scalable with a few easy tweaks in the future!
         // This is in the format of Queue.toString()
         String findMe = "[" + lastlastWord + ", " + getLastWord() + "]";
 
@@ -83,7 +82,7 @@ public class MarkovChainGen2 extends MarkovChain
                 }
             }
         }
-        else // We need a backup plan in case there is no data for the pair!
+        else // TODO: This is a backup in case no data is found, but this should in theory never run!
             ret = firstOrder;
         return ret;
     }

@@ -53,10 +53,12 @@ public class MarkovChain
     public List<String> getNextWords()
     {
     	//TODO: return List<String> of words that are neighbors of lastWord, weighted appropriatly
-    	String findMe = lastWord == null ? START : lastWord;
+
+        // Design decision: have it set lastWord *itself* to START if it's "null"
+    	lastWord = lastWord == null ? START : lastWord;
 
     	List<String> ret = new LinkedList<>();
-    	Map<String, Integer> data = wg.getGraph().getNeighborWeights(findMe);
+    	Map<String, Integer> data = wg.getGraph().getNeighborWeights(lastWord);
     	for (String word : data.keySet()) {
             for (int i = 0; i < data.get(word); i++) {
                 ret.add(word);
