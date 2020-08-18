@@ -1,4 +1,4 @@
-# Markov Chain Spam Generator
+# Markov Chains
 
 **=== Project Description ===**
 
@@ -8,7 +8,7 @@ Then, implement a Word Graph that uses the Weighted Adjacency Map implementation
 
 Finally, implement first, second, and third-order Markov Chain programs that use the Word Graph implementation to generate increasingly human-cohesive sentences based on an input text training file.
 
-***Personal Extension***: Create a program that uses the third-order Markov Chain program to generate a spam email and send it to a list of recipients from a file.
+***Personal Extension***: Create a program that uses the third-order Markov Chain program to generate a spam email. This has been turned into a webapp project that can be found in its dedicated repository.
 
 **=== Objective ===**
 
@@ -50,7 +50,3 @@ MarkovChainGen2.java
 MarkovChainGen3.java
 
 - Markov Chain programs for 1st, 2nd, and 3rd order chains, respectively.
-
-***Spam.java***
-
-- Spam email program.
