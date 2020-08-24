@@ -27,7 +27,7 @@ public class MarkovChainTester
 
 		System.out.println();
 
-		MarkovChainGen2 chain2 = new MarkovChainGen2();
+		MarkovChain chain2 = new MarkovChainGen2();
 		chain2.train(testFile);
 		for(int i = 0; i < num; i++)
 		{
@@ -36,7 +36,7 @@ public class MarkovChainTester
 
 		System.out.println();
 
-		MarkovChainGen3 chain3 = new MarkovChainGen3();
+		MarkovChain chain3 = new MarkovChainGen3();
 		chain3.train(testFile);
 		for(int i = 0; i < num; i++)
 		{
