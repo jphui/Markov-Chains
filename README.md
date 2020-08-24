@@ -8,7 +8,7 @@ Then, implement a Word Graph that uses the Weighted Adjacency Map implementation
 
 Finally, implement first, second, and third-order Markov Chain programs that use the Word Graph implementation to generate increasingly human-cohesive sentences based on an input text training file.
 
-***Personal Extension***: Create a program that uses the Markov Chain program to generate a spam email. This has been turned into a webapp project that can be found [here] (https://github.com/jphui/Spam-Email-Generator).
+***Personal Extension***: Create a program that uses the Markov Chain program to generate a spam email. This has been turned into a webapp project that can be found [here](https://github.com/jphui/Spam-Email-Generator).
 
 **=== Objective ===**
 
